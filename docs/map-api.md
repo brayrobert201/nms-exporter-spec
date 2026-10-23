@@ -18,7 +18,7 @@ Conventions:
 
 ## Store-down behaviour (503)
 
-The history-backed endpoints (`/api/live`, `/api/elevation`, `/api/finds`, `/api/sectors`,
+The history-backed endpoints (`/api/elevation`, `/api/finds`, `/api/sectors`,
 `/api/systems`) answer:
 
 ```
@@ -89,6 +89,9 @@ base-less planets and names are missing and `errors["nms-db"]` explains.
 
 Params: `base` (open base name, optional), `target` (target key, optional).
 
+Always 200 when a live file exists, even with the history store down: the position is a file.
+`db: false` plus `db_error` then say that the trail, names and finds are missing.
+
 No live file:
 
 ```json
@@ -98,7 +101,7 @@ No live file:
 Off planet:
 
 ```json
-{"state": "live|stale", "age": 1.2, "location": "SpaceInShip", "error": null,
+{"state": "live|stale", "age": 1.2, "location": "Default", "error": null, "db": true,
  "weather": {…} | null, "address": "0x…" | null, "address_inferred": true,
  "names": {"planet": "…" | null, "system": "…" | null},
  "on_planet": false, "system_bases": ["…"], "why": "12 km from the nearest planet · no bases in this system"}

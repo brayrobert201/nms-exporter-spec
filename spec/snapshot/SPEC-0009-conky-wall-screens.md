@@ -6,7 +6,7 @@ type: snapshot
 area: save-exporter
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0002, SPEC-0003]
 supersedes: []
@@ -69,16 +69,18 @@ quickly. Each call prints conky markup for one section and exits 0.
 
 ### SPEC-0009-REQ-003: Shared fetch cache
 
-All sections of one refresh shall share one fetch: the renderer reads the cache file; if it is
-older than **TTL = 4 s** it fetches `/json` (timeout 3 s), drops the large `known` key, and writes
-`{fetched, good, error, data}` via a temp file + rename. On a fetch error it keeps the previous
-`data` and `good` time and records the error. If there is no data, or the last good fetch is
-older than **120 s**, the renderer returns "no data" rather than old numbers.
+All sections of one refresh shall share one fetch: the renderer reads the cache file
+`{fetched, good, error, data}`. If there is no data, or the last good fetch is older than
+**120 s**, it fetches `/json` synchronously (timeout 3 s, the large `known` key dropped, written
+via temp file + rename) because there is nothing worth showing yet. Otherwise, if the cache is
+older than **TTL = 4 s**, it renders from the cache at once and starts the fetch in a detached
+child (fork, setsid, stdio to /dev/null) guarded by a non-blocking `flock` on a lock file next to
+the cache, so a dozen sections start one fetch and `execpi` never waits on the exporter. On a
+fetch error the child keeps the previous `data` and `good` time and records the error. Past
+120 s the renderer returns "no data" rather than old numbers.
 
-A fetch inside `execpi` blocks that one section for up to the 3 s timeout when the exporter
-hangs. A rebuild should refresh the cache from a background process instead, so `execpi` only
-ever reads a file (the companion wall-screen project does this); the reference implementation
-does not yet.
+A status pill must never show a value that reads as "nothing": the hazard tile printed `▲ 0`
+for a hazard of 0.3 because it formatted with no decimals. Values below 10 take one decimal.
 
 ### SPEC-0009-REQ-004: Never blank, never a traceback
 

@@ -6,7 +6,7 @@ type: lesson
 area: save-exporter
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 related_specs: [SPEC-0001, SPEC-0002, SPEC-0003, SPEC-0004, SPEC-0005, SPEC-0006, SPEC-0007, SPEC-0008, SPEC-0009, SPEC-0010, SPEC-0011, SPEC-0015]
 ---
@@ -35,8 +35,9 @@ never a single-save fill comparison. See SPEC-0015.
 units; the save wrote it as -2,116,588,792 and every screen and the Grafana history showed a
 negative balance. Fixed by adding 2^32 to negative `Units`, `Nanites`, `Specials`
 (commit "Read the wallet as unsigned so balances past 2.1B stay positive"). The lifetime counters
-were not fixed at the same time: `nms_stat{stat="MONEY_EVER"}` reads -617,290,418 today
-(3,677,676,878 unsigned), and the traveller screen prints "-617.3M earned ever".
+were not fixed at the same time: `nms_stat{stat="MONEY_EVER"}` read -617,290,418 for another day
+(3,677,676,878 unsigned), and the traveller screen printed "-617.3M earned ever", until writing
+this spec found it.
 
 **The rule.** Any 32-bit currency field, current or lifetime, is unsigned. Grep the stats block
 for `MONEY*` and `NANITES*` and apply the same correction. The wallet cap (presumably

@@ -6,7 +6,7 @@ type: snapshot
 area: save-exporter
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0002, SPEC-0009, SPEC-0010]
 supersedes: []
@@ -100,7 +100,10 @@ system Python, SPEC-0012.)
 
 After installing new renderer code, the deploy shall send `SIGUSR1` to the running conky
 processes (conky reloads its config on USR1); the renderer is re-executed every `execpi`
-interval anyway.
+interval anyway. The process pattern must match the unit's real command line (`conky -c
+<install dir>/conky/`): the first version matched `^conky -d -c …`, which the unit never runs,
+so "conky reloaded" was printed with nothing reloaded. When no conky is running the deploy says
+so rather than claiming success.
 
 ### SPEC-0011-REQ-005: Dev-deploy
 

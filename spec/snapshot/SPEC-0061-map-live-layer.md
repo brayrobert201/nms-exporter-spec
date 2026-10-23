@@ -6,7 +6,7 @@ type: snapshot
 area: map-ui
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0060]
 supersedes: []
@@ -65,8 +65,8 @@ on the surface when the planet bits are non-zero and (`in_atmosphere` or
 
 Heading shall be the compass bearing of the player's facing, projected onto the tangent plane at
 `up = normalise(rel)`: `atan2(f·east, f·north)` in degrees 0–360. The facing vector is `-at` on
-foot and `+at` when `location` is one of `PlanetInShip`, `Default`, `SpaceInShip`,
-`PlanetInAtmoShip` (measured: movement vs `at` averaged cos −0.94 over 304 on-foot steps and
+foot and `+at` when `location` is `PlanetInShip` or `Default` (the only ship locations in
+nmspy's `EnvironmentLocation`; space flight reports `Default`) (measured: movement vs `at` averaged cos −0.94 over 304 on-foot steps and
 +0.99 over 1042 ship steps). Heading is `null` when the projection vanishes.
 
 ### SPEC-0061-REQ-004: Surface navigation
@@ -164,7 +164,7 @@ to the player's planet (reloading the planet list first if it is new) and turns 
 The header pill shall read `● Live` (`--good`) with the location name and planet/system names,
 `⚠ Stale` (`--warning`) with `last <n> s|min ago`, or `○ No live data` (neutral) with the error
 as a tooltip. Location names: `PlanetOnFoot` On foot, `PlanetInVehicle` In exocraft,
-`PlanetInShip` In ship (landed), `PlanetInAtmoShip` Flying, `SpaceInShip`/`Default` In space,
+`PlanetInShip` In ship, `Default` In space,
 `IndoorInBase` In a base, `Freighter` In your corvette, `FreighterInternals` Freighter, `Cave`,
 `Underwater`, `SpaceStation`; unknown names split at camel case. After it, the weather: a storm
 phase as a status pill with glyph and word (`⛈ Storm coming` warning, `⛈ Storm starting` /
@@ -203,8 +203,9 @@ card shall refit a fitted view, or re-centre while following.
 - **No `live.json`:** `state: none`, pill `○ No live data`; no arrow, trail, Nearby or banner.
 - **Stale:** arrow greyed, no pulse, pill `⚠ Stale … last N min ago`, Nearby header says `stale`;
   everything else still drawn from the last sample.
-- **History store down:** `/api/live` answers 503; the page treats it as `state: none` and shows
-  the database-down banner (SPEC-0069-REQ-010).
+- **History store down:** `/api/live` still answers 200 with the position, heading and the
+  save's nearby objects, but `db: false` and `db_error`; the trail, names and finds are absent.
+  The page keeps drawing the player and shows the database-down banner (SPEC-0069-REQ-010).
 - **Off planet:** `on_planet: false` with `why` and `system_bases`; the away banner replaces the
   arrow.
 - **No heading:** dot instead of arrow; turn and turn words blank; facing-up behaves as north-up.

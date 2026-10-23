@@ -6,7 +6,7 @@ type: snapshot
 area: storage-deploy
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0080]
 supersedes: []
@@ -35,7 +35,8 @@ owner chose this over a silent fallback to the hook's files (SPEC-0090); a rebui
 | `GET /metrics` | no | 200, plus `nms_db_up 0` |
 | `GET /json`, `/diff`, `/raw/bases`, `/healthz`, `/` | no | unaffected |
 | `GET /api/map` | partly | 200; the save's planets and bases still listed; planets known only from the hook are missing; `errors["nms-db"]` explains |
-| `GET /api/live`, `/api/elevation`, `/api/finds`, `/api/sectors`, `/api/systems` | yes | 503 `{"error": "...", "db": false}` |
+| `GET /api/elevation`, `/api/finds`, `/api/sectors`, `/api/systems` | yes | 503 `{"error": "...", "db": false}` |
+| `GET /api/live` | partly | 200; position, heading, weather and the save's nearby objects; `db: false`, `db_error`; no trail, names or finds |
 | `POST /api/finds/class` | yes | 503 `{"ok": false, "error": "nms-db unreachable: ..."}` |
 | `GET /map`, `/systems` (HTML) | no | page loads; banner shown once an API call reports `db: false` |
 
@@ -135,13 +136,14 @@ This whole spec is the degraded behaviour. Summary of what a user sees:
 |---|---|---|---|---|
 | configured, up | normal | normal | normal | `nms_db_up 1` |
 | unconfigured | normal | save planets and bases; banner "Database down ... nms-db not configured" | banner | `nms_db_up 0` |
-| configured, down | normal | save planets and bases; banner with the driver message; live position gone too | banner | `nms_db_up 0` |
+| configured, down | normal | save planets and bases; banner with the driver message; live position still drawn | banner | `nms_db_up 0` |
 | down, then back | normal | banner clears on the next successful poll; nothing lost (SPEC-0080 offsets) | recovers | back to 1 within one ingest pass |
 
-Known cost: while the database is down, the map loses the live position as well, because
-`/api/live` reads trail and finds in the same response. Splitting `live.json` into its own
-endpoint would keep the marker on screen; it has not been needed, because the database runs
-with two instances (SPEC-0083).
+`/api/live` is the exception to "Postgres only" because the position comes from a file, not the
+database: `live.build` guards every database read, and the first failure sets `db: false` and
+`db_error` while the rest of the response is still built. (Until 2026-10-23 the route was on the
+503 list and the player vanished with the database; that was a cost of the first cut, not a
+choice.)
 
 ## Verification
 

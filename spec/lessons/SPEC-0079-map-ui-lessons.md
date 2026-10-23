@@ -6,7 +6,7 @@ type: lesson
 area: map-ui
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 related_specs: [SPEC-0060, SPEC-0061, SPEC-0062, SPEC-0063, SPEC-0064, SPEC-0065, SPEC-0066, SPEC-0067, SPEC-0068, SPEC-0069, SPEC-0043, SPEC-0049]
 ---
@@ -22,9 +22,10 @@ while flying. Over the recorded trail, movement against the player transform's `
 cos −0.94 on foot (304 steps) and +0.99 in the ship (1042 steps, locations `PlanetInShip` and
 `Default`).
 
-**The rule.** Facing is `-at` on foot and `+at` in ship locations (`PlanetInShip`, `Default`,
-`SpaceInShip`, `PlanetInAtmoShip`). Check any heading against measured movement, per location,
-before trusting it.
+**The rule.** Facing is `-at` on foot and `+at` in ship locations (`PlanetInShip`, `Default`).
+Check any heading against measured movement, per location, before trusting it, and check the
+location names against the enum: two invented ones (`SpaceInShip`, `PlanetInAtmoShip`) sat in
+the ship set unnoticed until the spec was written.
 
 ## Lesson: the corvette and freighter are bases
 

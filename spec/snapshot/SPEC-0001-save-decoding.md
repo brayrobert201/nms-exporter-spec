@@ -6,7 +6,7 @@ type: snapshot
 area: save-exporter
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: []
 supersedes: []
@@ -124,10 +124,10 @@ unprintable (SPEC-0002-REQ-009).
 `PlayerStateData.Units`, `.Nanites` and `.Specials` (quicksilver) shall be read as uint32: a
 negative value `v` becomes `v + 2**32`.
 
-The same correction should be applied to lifetime counters that hold wallet totals
-(`MONEY`, `MONEY_EVER`, `NANITES`, `NANITES_EVER` in the `^GLOBAL_STATS` block). The reference
-implementation does not yet do this: `MONEY_EVER` currently exports as `-617290418`
-(3,677,676,878 unsigned) and the traveller screen shows "-617.3M earned ever".
+The same correction shall be applied to every integer lifetime counter in the `^GLOBAL_STATS`
+block (`MONEY_EVER`, `NANITES_EVER`, …): a negative counter is always overflow. Before this was
+done, `MONEY_EVER` exported as `-617290418` (3,677,676,878 unsigned) and the traveller screen
+showed "-617.3M earned ever".
 
 ### SPEC-0001-REQ-010: Where the useful data is
 

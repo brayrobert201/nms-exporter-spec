@@ -36,9 +36,9 @@ repository makes that redistribution to anyone.
   `nms-footprints` (SPEC-0024). The original keeps it gitignored and regenerates; a public rebuild
   may choose to do the same, which is the conservative reading.
 - **Game text is regenerated, not shipped, in a public rebuild.** `nms_tables.json` contains item
-  names, recipe names and mission titles from the language files. The original (a private
-  repository) commits it; a public rebuild shall gitignore it and generate it on first run
-  (SPEC-0021), keeping only a small hand-written fixture of made-up ids for tests if needed.
+  names, recipe names and mission titles from the language files. It is gitignored and
+  generated from the installed game (SPEC-0021); the loader's error names the script that builds
+  it. Keep only a small hand-written fixture of made-up ids for tests if needed.
 - **Cited excerpts are short and purposeful.** Compendium sources from `nms-pak cite`
   (SPEC-0026) are line ranges of converted data tables, chosen to support a specific claim, with
   provenance. A public rebuild should keep its cited excerpts outside the public repository, or

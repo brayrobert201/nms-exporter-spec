@@ -6,7 +6,7 @@ type: snapshot
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0042]
 supersedes: []
@@ -61,7 +61,7 @@ were mixed and keep the on-foot sign.
 (`EnvironmentLocation` values in nmspy 181442.1: None_ 0, Default 1, SpaceStation 2, PlanetOnFoot 3,
 PlanetInShip 4, PlanetInVehicle 5, Underwater 6, Cave 7, IndoorInBase 8, Freighter 9,
 FreighterInternals 10, AbandonedFreighter 11, InFleet 12, InSpaceObject 13, Nexus 14, Anomaly 15.
-The original exporter also lists `SpaceInShip` and `PlanetInAtmoShip`, which do not exist; harmless.)
+The exporter's ship set is exactly `PlanetInShip` and `Default`; two invented names were removed on 2026-10-23.)
 
 ### SPEC-0043-REQ-004: Corvette and freighter locations
 The system shall label `location == "Freighter"` (9) as the player's corvette interior and
