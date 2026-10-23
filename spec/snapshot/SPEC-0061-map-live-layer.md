@@ -52,7 +52,7 @@ X & 0xFFF | (Z & 0xFFF) << 12 | (Y & 0xFF) << 24 | min(reality,0xFF) << 32
 and match the planet by **exact** address. Planet bits `(addr >> 52) & 0xF == 0` mean "in a
 system, at no planet" and shall never be treated as a planet. If `ua` is missing (hook attached
 mid-game) but `planet_pos` is present, the system shall look up the address previously seen with
-the same rounded planet centre and set `address_inferred: true`.
+the same rounded planet centre and set `address_inferred: true` (attach mode only; see SPEC-0040 launch mode).
 
 ### SPEC-0061-REQ-002: Live state
 

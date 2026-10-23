@@ -6,7 +6,7 @@ type: snapshot
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: [SPEC-0040]
 supersedes: []
@@ -17,7 +17,7 @@ screenshots: []
 
 # SPEC-0042: live_position mod: player position at 4 Hz, trail, galactic address
 
-> Runs inside the game process (SPEC-0040). Save before attaching.
+> Runs inside the game process (SPEC-0040). In launch mode it is loaded before the game boots; in attach mode, save before attaching.
 
 ## Summary
 
@@ -143,7 +143,7 @@ The mod deliberately has **no** `cGcApplication.Update` hook (SPEC-0041 REQ-007)
 |---|---|
 | Game not running / not injected | No writes; `live.json` keeps its last content; exporter says `stale` after 10 s, `none` if the file never existed. |
 | Game paused / in a menu that stops `cGcPlayerEnvironment::Update` | Same as above: stale. A stale feed is not proof of a crash; check the game. |
-| Attached mid-game | `ua` null until nmspy sees a game state change (warp, load); the exporter infers the planet from `planet_pos` if seen before with an address, else shows "waiting for the game to report where you are". |
+| Attached mid-game (attach mode only; launch mode has the address from the first sample) | `ua` null until nmspy sees a game state change (warp, load); the exporter infers the planet from `planet_pos` if seen before with an address, else shows "waiting for the game to report where you are". |
 | Address lookup raised | `ua` null for the session; logged once. |
 | Detour disabled by pyMHF | `live.json` stops; census and re-enable per SPEC-0041 REQ-005. |
 | Disk full / write error | The exception would disable the detour; the feed goes stale. |

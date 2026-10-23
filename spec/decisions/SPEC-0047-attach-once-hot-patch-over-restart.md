@@ -6,7 +6,7 @@ type: decision
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: accepted
 supersedes: []
 superseded_by: []
@@ -35,6 +35,14 @@ Meanwhile the mods were exploratory and changed many times an evening, and a gam
 minutes plus the risk to unsaved progress each time.
 
 ## Decision
+
+> **Scope (2026-10-23).** This decision governs *attach mode*. Launch mode (SPEC-0040, "Launch
+> mode") is now the normal way in: every session is a fresh launch with injection at boot, so
+> "one attach per run" is not a rule anyone has to remember, mid-game attaches with no address do
+> not happen, and Ctrl+C in pyMHF's console is simply how the game is closed. The executor
+> hot-patching below applies unchanged in both modes. Attach mode remains for a game that is
+> already running (started without the wrapper) and keeps every rule here.
+
 
 - **One attach per game run.** The launcher detects a listening 6770 in the game's network namespace
   and refuses to inject (SPEC-0040 REQ-006). Restarting the game is the only way to attach again.
@@ -69,5 +77,8 @@ minutes plus the risk to unsaved progress each time.
   Acceptable on a single-user gaming PC; not on a shared machine.
 - The memory-read rule was learned by crashing the game once (2026-10-23, `cGcApplication::Update`
   `this` mapped as `cGcApplication`). Mid-game attaches therefore may lack the galactic address; the
-  exporter infers it from the planet centre (SPEC-0043 REQ-008).
-- Revisit when pyMHF supports unload/re-attach, or stops terminating the game on injected-side exit.
+  exporter infers it from the planet centre (SPEC-0043 REQ-008). The real fix was earlier injection
+  (launch mode), not another read.
+- Revisited 2026-10-23: launch mode removes the second-attach trap and the missing address for normal
+  play; this decision stays for the attach fallback. Revisit again when pyMHF supports
+  unload/re-attach, or stops terminating the game on injected-side exit.

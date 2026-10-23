@@ -75,10 +75,13 @@ schema) are in [`docs/data-formats.md`](docs/data-formats.md); the map's HTTP AP
 
 ## Safety
 
-The live hook injects into a running game process. It can crash the game; a second attach in one
-game run **will**. Save before attaching, read `spec/lessons/` for the live-hook area, and keep
-the hook's rules: attach once per run, never Ctrl-C its terminal, hot-patch only logic over
-memory already proven safe.
+The live hook injects into the game process. It can crash the game. The preferred way in is
+*launch mode*: a wrapper in the game's Steam launch options lets pyMHF start the game paused and
+inject before it boots (SPEC-0040), after which closing pyMHF's console closes the game, as on
+Windows. *Attach mode* (injecting into a game already running) has rules that cost real game
+time to learn: once per game run (a second attach **will** crash it), never Ctrl-C its terminal,
+save first, and hot-patch only logic over memory already proven safe. Read `spec/lessons/` for
+the live-hook area before either.
 
 ## Screenshots
 

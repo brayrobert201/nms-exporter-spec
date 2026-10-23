@@ -43,7 +43,7 @@ Every spec, by area. Status: `current`/`accepted` unless noted. Lessons files ar
 
 | id | type | title | status |
 |---|---|---|---|
-| [SPEC-0040](snapshot/SPEC-0040-hook-attach-under-proton.md) | snapshot | Attaching pyMHF / NMS.py to the running game under Proton | current |
+| [SPEC-0040](snapshot/SPEC-0040-hook-attach-under-proton.md) | snapshot | pyMHF / NMS.py under Proton: launching the game through it, or attaching | current |
 | [SPEC-0041](snapshot/SPEC-0041-executor-hot-patching.md) | snapshot | In-game executor and hot-patching mods without a restart | current |
 | [SPEC-0042](snapshot/SPEC-0042-live-position-mod.md) | snapshot | live_position mod: player position at 4 Hz, trail, galactic address | current |
 | [SPEC-0043](snapshot/SPEC-0043-planet-frame-heading-radius-address.md) | snapshot | Planet frame, compass, heading, nominal radius, sea level and universe address | current |

@@ -102,7 +102,7 @@ ua = (x & 0xFFF) | ((z & 0xFFF) << 12) | ((y & 0xFF) << 24) \
 and unpack with sign extension (`v - 2**bits if v >= 2**(bits-1)`). A system's address is the planet
 address with bits 52-55 cleared. When `ua` is null (mid-game attach), the system shall look up the
 rounded `planet_pos` in a map of planet centre -> address built from earlier samples that had both
-(planet bits != 0), and mark the result as inferred.
+(planet bits != 0), and mark the result as inferred. This path is only reached in attach mode; launched through pyMHF (SPEC-0040 launch mode) `ua` is set from the first sample.
 
 ### SPEC-0043-REQ-009: miNearestPlanetIndex
 The system shall not use `planet_index` (`miNearestPlanetIndex`) as the address planet number. It

@@ -103,14 +103,16 @@ Verify:
 
 ## Step 3: live hook (SPEC 0040–0059)
 
-Read SPEC-0040 (attach under Proton), SPEC-0041 (executor hot-patching), SPEC-0042 (live
+Read SPEC-0040 (pyMHF under Proton: launch mode and attach mode), SPEC-0041 (executor hot-patching), SPEC-0042 (live
 position), SPEC-0043 (frames, heading, radius, address), SPEC-0044 (weather), SPEC-0045 (visor
 log and chat commands), SPEC-0046 (galaxy log), decisions SPEC-0047 and SPEC-0048, and the lessons
 SPEC-0049 **before** attaching anything. Formats: `docs/hook-events.md`.
 
 Build:
 
-1. The Windows Python in the prefix and the launcher that attaches exactly once per game run.
+1. The Windows Python in the prefix; the Steam launch-options wrapper (launch mode, preferred:
+   pyMHF starts the game paused and injects before boot); and the attach launcher for a game
+   already running, once per run.
 2. The three mods: position (`live.json` + trail), visor log, galaxy log.
 3. In the exporter: reading `live.json` (state; returns a value or an error, never raises).
 
@@ -121,7 +123,9 @@ Verify (with the person at the game, after they save):
 - Standing in a base, `|rel|` is within tens of metres of that base's saved `Position` magnitude.
 - A visor survey produces `marker_add` lines; `/hs S silver` in game chat produces a `label`
   line.
-- Detaching leaves the game running.
+- Detaching leaves the game running (attach mode). In launch mode, the pyMHF log shows
+  "injection complete" *before* the first `New State:` line, and the first `live.json` already
+  carries `ua`.
 
 At this stage the day files exist and grow; nothing reads their history yet. That is expected:
 the map's history comes from step 5's store.

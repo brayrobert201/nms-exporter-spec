@@ -1,7 +1,7 @@
 ---
 id: SPEC-0040
-title: 'Attaching pyMHF / NMS.py to the running game under Proton'
-description: 'Install a Windows Python inside the game''s Proton prefix, and a launcher that injects pyMHF into an already running NMS.exe exactly once per game run, with pre-flight checks and a safe detach.'
+title: 'pyMHF / NMS.py under Proton: launching the game through it, or attaching'
+description: 'A Windows Python inside the game''s Proton prefix; a Steam launch-options wrapper so pyMHF starts NMS.exe paused and injects before boot (preferred); and an attach launcher for an already running game, once per run, with pre-flight checks and a safe detach.'
 type: snapshot
 area: live-hook
 author: bob
@@ -15,12 +15,18 @@ related_specs: [SPEC-0041, SPEC-0042, SPEC-0047, SPEC-0049]
 screenshots: []
 ---
 
-# SPEC-0040: Attaching pyMHF / NMS.py to the running game under Proton
+# SPEC-0040: pyMHF / NMS.py under Proton: launching the game through it, or attaching
 
 > **Safety.** This injects a Python interpreter into the running `NMS.exe` process and patches game
 > functions. It can freeze or crash the game, and a crash during a save can damage that save.
 > **Save in game first and keep a copy of the save folder** before every attach. Single-player only;
 > never use it in an online / multiplayer session.
+>
+> **Two ways in.** *Launch mode* (the section at the end, preferred since 2026-10-23): a wrapper in
+> the game's Steam launch options makes pyMHF start `NMS.exe` paused and inject before the game
+> boots, so nmspy's singletons exist from the first frame. *Attach mode* (the body of this spec):
+> inject into a game already running, once per run, with the limits in SPEC-0047. Both use the same
+> prefix Python and config file; whichever launcher ran last wrote the config.
 
 ## Summary
 

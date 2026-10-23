@@ -102,7 +102,7 @@ Off planet:
 
 ```json
 {"state": "live|stale", "age": 1.2, "location": "Default", "error": null, "db": true,
- "weather": {…} | null, "address": "0x…" | null, "address_inferred": true,
+ "weather": {…} | null, "address": "0x…" | null, "address_inferred": true,   // inferred only in attach mode
  "names": {"planet": "…" | null, "system": "…" | null},
  "on_planet": false, "system_bases": ["…"], "why": "12 km from the nearest planet · no bases in this system"}
 ```
