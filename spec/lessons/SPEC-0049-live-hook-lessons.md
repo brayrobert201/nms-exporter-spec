@@ -6,7 +6,7 @@ type: lesson
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 related_specs: [SPEC-0040, SPEC-0041, SPEC-0042, SPEC-0043, SPEC-0044, SPEC-0045, SPEC-0046, SPEC-0047, SPEC-0048]
 ---
@@ -155,3 +155,16 @@ attaching while walking on a planet left `ua` null indefinitely. The tempting fi
 **The rule.** Attach from the main menu or right after loading where possible; otherwise let the
 exporter infer the address from a planet centre seen before with one, and say "waiting for the game to
 report where you are" when it cannot.
+
+## Lesson: attach mode was the root of the "no address" problem; launching fixes it
+
+**What happened.** For two days the exporter inferred the planet from its centre and the map
+waited for an address after every mid-game attach, and one hot-patch to get the application
+object another way crashed the game. The cause was structural: nmspy captures `cGcApplication`
+with a one-shot hook on the FSM's first state change *after injection*, which never comes when
+you attach to a game already in APPVIEW. Launching through pyMHF (SPEC-0040 launch mode) put
+injection 4 s before the first state, and the first sample had the address.
+
+**The rule.** When a singleton is `None` after attaching, don't go looking for another way to
+read it; inject earlier. Reading the framework's own singleton loader tells you which hook it
+needs and whether you missed it.

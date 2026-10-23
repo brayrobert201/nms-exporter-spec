@@ -6,7 +6,7 @@ type: snapshot
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-23'
 status: current
 depends_on: []
 supersedes: []
@@ -197,3 +197,52 @@ variable (e.g. `WINEFSYNC=1`) and the game's Proton wine.
 See [SPEC-0049](../lessons/SPEC-0049-live-hook-lessons.md). Top two: a second attach into an
 already-injected game crashed it (hence REQ-006); Ctrl+C or any end of the injected script SIGTERMs
 the game (hence REQ-012/013).
+
+## Launch mode: pyMHF starts the game (tested 2026-10-23)
+
+Attaching to a running game misses everything that happens at boot, most importantly nmspy's
+one-shot `cTkFSM::StateChange` hook that captures `cGcApplication`; after a mid-game attach
+`gameData.*` stays `None` until the next state change, and the universe address with it. The
+fix is to make pyMHF the program Steam launches, so pyMHF's own Windows path
+(`CreateProcess(CREATE_SUSPENDED)` → inject → wait for the injected side's ready flag →
+`ResumeThread`) runs inside Steam's Proton environment. Wine implements all three calls.
+
+### SPEC-0040-REQ-010: Launch wrapper
+
+A wrapper placed in the game's Steam launch options (`<wrapper> %command%`, keeping any
+existing env such as `DXVK_CONFIG=...` in front) shall:
+
+1. take the last argument (the game exe, a Unix path) and replace it with
+   `C:\pymhf\python\python.exe -m pymhf run nmspy`, leaving the Steam Linux Runtime entry
+   point and `proton waitforexitandrun` in front untouched (Proton passes everything after the
+   verb straight to `wine`);
+2. write pyMHF's local config in launch mode: `exe` = the absolute Windows path of the game exe
+   (`Z:` + the Unix path with backslashes; an absolute `exe` overrides nmspy's `steam_gameid`
+   so pyMHF does not try `steam://`), `start_exe = true`, `start_paused = true`, plus the mod,
+   save and log directories;
+3. copy the repository's mods into the mod directory, set `WINEPATH` for the log window;
+4. `cd` to the exe's directory (the game expects its own folder as cwd and pyMHF's
+   `CreateProcess` inherits it) and exec the command under a pseudo-terminal
+   (`script -qfec ... <log>` with stdin from `/dev/null`): pyMHF builds console prompts at
+   import and dies without a console.
+
+The attach launcher shall write the attach-mode config back before attaching, so the two modes
+share one file and whichever ran last wins.
+
+### Observed on the first run
+
+- `pyMHF injection complete!` 4 s before the game's first FSM state (`APPCORESERVICES`), then
+  `APPGLOBALLOAD` → `MODESELECTOR` → `APPLOCALLOAD` → `APPVIEW` logged by nmspy's state hook.
+- 21 hooks and all mods loaded before the menu; `gameData.GcApplication`, `.simulation` and
+  `.player_state` set; the first position sample carried the full universe address.
+- Harmless noise in the wrapper's log: `ld.so: object '.../gameoverlayrenderer.so' ... wrong
+  ELF class` (Steam preloads both overlay builds into every child) and Proton's `unable to use
+  parent for game drive` (the exe handed to Proton is python.exe, not the game).
+- Ending pyMHF (Ctrl+C in its console) ends the game, as on Windows; `--detach` (SIGKILL of the
+  host side) still leaves the game running.
+
+### Degraded behaviour (launch mode)
+
+Without the wrapper in the launch options nothing changes. If pyMHF fails before resuming the
+exe, the game never appears; the wrapper's log says why, and removing the wrapper from the
+launch options restores normal launches.
