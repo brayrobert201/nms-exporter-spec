@@ -39,8 +39,10 @@ were not fixed at the same time: `nms_stat{stat="MONEY_EVER"}` read -617,290,418
 (3,677,676,878 unsigned), and the traveller screen printed "-617.3M earned ever", until writing
 this spec found it.
 
-**The rule.** Any 32-bit currency field, current or lifetime, is unsigned. Grep the stats block
-for `MONEY*` and `NANITES*` and apply the same correction. The wallet cap (presumably
+**The rule.** Any 32-bit *currency* field, current or lifetime, is unsigned; apply the correction
+to those by id, never to the whole stats block. Standings in the same block are signed and
+negative is meaningful (a race you have angered), which the first blanket fix turned into
+4,294,967,210. The wallet cap (presumably
 4,294,967,295) and what the game does there are not observed.
 
 ## Lesson: the save does not say what a hotspot gives, or how strong it is

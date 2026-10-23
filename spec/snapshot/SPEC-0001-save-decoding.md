@@ -124,8 +124,11 @@ unprintable (SPEC-0002-REQ-009).
 `PlayerStateData.Units`, `.Nanites` and `.Specials` (quicksilver) shall be read as uint32: a
 negative value `v` becomes `v + 2**32`.
 
-The same correction shall be applied to every integer lifetime counter in the `^GLOBAL_STATS`
-block (`MONEY_EVER`, `NANITES_EVER`, …): a negative counter is always overflow. Before this was
+The same correction shall be applied to the *currency* counters in the `^GLOBAL_STATS` block
+(ids containing `MONEY`, `NANITES`, `SPECIAL` or `UNITS`) and to nothing else: standings there
+(`TRA_STANDING`, `WAR_STANDING`, `EXP_STANDING`, the `*GUILD_STAND` values) are genuinely signed
+and go negative (a Gek standing of −86 was shown as 4,294,967,210 for an afternoon after the
+correction was applied to every counter). Before this was
 done, `MONEY_EVER` exported as `-617290418` (3,677,676,878 unsigned) and the traveller screen
 showed "-617.3M earned ever".
 
