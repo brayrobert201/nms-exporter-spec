@@ -12,7 +12,7 @@ depends_on: [SPEC-0060]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0061, SPEC-0063, SPEC-0069, SPEC-0023]
-screenshots: [show-menu.png, planet-map-icons.png, map-phone.png]
+screenshots: [show-menu.png, planet-map-finds.png, map-phone.png]
 ---
 
 # SPEC-0064: Map interaction: tap targets, tooltip, selection, legend, Show menu, zoom, grid and declutter

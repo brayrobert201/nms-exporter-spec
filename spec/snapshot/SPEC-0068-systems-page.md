@@ -12,7 +12,7 @@ depends_on: [SPEC-0061]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0060, SPEC-0069, SPEC-0023, SPEC-0046, SPEC-0080]
-screenshots: [systems-page.png, portal-glyphs.png]
+screenshots: [systems-page.png, systems-portal-codes.png]
 ---
 
 # SPEC-0068: Systems page: every star system seen, with portal addresses
@@ -92,7 +92,7 @@ shall be the lowest planet `1..min(planets, 15)` whose glyph is learned, if any.
 `d` is drawn as `/glyph/<d>.png`; names 0–F: Sunset, Bird, Face, Diplo, Eclipse, Balloon, Boat,
 Bug, Dragonfly, Galaxy, Voxel, Fish, Tent, Rocket, Tree, Atlas.
 
-![Portal glyphs in a detail row](../../screenshots/portal-glyphs.png)
+![Portal glyphs in a detail row](../../screenshots/systems-portal-codes.png)
 
 ### SPEC-0068-REQ-007: Learned glyphs
 

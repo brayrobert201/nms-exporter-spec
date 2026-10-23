@@ -11,7 +11,7 @@ leaned on a home lab (a Kubernetes cluster, a managed Postgres, a secret store),
 what is needed from such a thing and why, not which product or host.
 
 <p align="center">
-<img src="screenshots/planet-map-icons.png" alt="A planet: bases, hotspots and deposits found through the analysis visor, terrain heights from where you've walked" width="420">
+<img src="screenshots/planet-map-finds.png" alt="A planet: bases, hotspots and deposits found through the analysis visor, terrain heights from where you've walked" width="420">
 <img src="screenshots/base-footprints.png" alt="A base from above: floor tiles, extractors, silos and a teleporter drawn at their true size and rotation" width="420">
 </p>
 <p align="center">
@@ -79,6 +79,14 @@ The live hook injects into a running game process. It can crash the game; a seco
 game run **will**. Save before attaching, read `spec/lessons/` for the live-hook area, and keep
 the hook's rules: attach once per run, never Ctrl-C its terminal, hot-patch only logic over
 memory already proven safe.
+
+## Screenshots
+
+Every screenshot was taken with the extracted HUD icons, portal-glyph images and glyph font
+absent, so what you see are the map's own fallback marks (dots and diamonds, hex digits for
+glyphs). That is deliberate: no image here contains game art. With the art extracted locally
+(SPEC-0023) the map shows the game's icons instead. `database-down.png` shows the banner the map
+raises when its history store is unreachable (SPEC-0081).
 
 ## Licence
 

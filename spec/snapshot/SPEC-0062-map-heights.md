@@ -12,7 +12,7 @@ depends_on: [SPEC-0060, SPEC-0061]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0069, SPEC-0042, SPEC-0043, SPEC-0080]
-screenshots: [terrain-heights.png, water-heights.png, planet-map-icons.png]
+screenshots: [terrain-heights.png, water-heights.png, planet-map-finds.png]
 ---
 
 # SPEC-0062: Map heights: ground elevation from the trail, terrain raster, hillshade and contours

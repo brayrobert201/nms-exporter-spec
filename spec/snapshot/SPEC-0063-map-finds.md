@@ -12,7 +12,7 @@ depends_on: [SPEC-0060, SPEC-0061]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0064, SPEC-0067, SPEC-0072, SPEC-0021, SPEC-0023, SPEC-0045, SPEC-0080]
-screenshots: [hotspot-labels.png, hotspot-class-panel.png, chat-mark.png, planet-map-icons.png]
+screenshots: [hotspot-labels.png, hotspot-class-panel.png, chat-mark.png, planet-map-finds.png]
 ---
 
 # SPEC-0063: Map finds: hotspots, deposits and marks, with player-recorded class and resource

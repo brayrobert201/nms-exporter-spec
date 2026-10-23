@@ -12,7 +12,7 @@ depends_on: [SPEC-0080]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0090, SPEC-0083, SPEC-0099, SPEC-0002, SPEC-0061, SPEC-0068, SPEC-0069]
-screenshots: []
+screenshots: [screenshots/database-down.png]
 ---
 
 # SPEC-0081: Postgres only: behaviour when the store is down

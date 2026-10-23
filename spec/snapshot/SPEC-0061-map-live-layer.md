@@ -12,7 +12,7 @@ depends_on: [SPEC-0060]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0063, SPEC-0064, SPEC-0067, SPEC-0079, SPEC-0042, SPEC-0043, SPEC-0044, SPEC-0080, SPEC-0081]
-screenshots: [facing-up.png, away-banner.png, planet-map-icons.png, storm-countdown.png, hotspot-class-panel.png]
+screenshots: [facing-up.png, away-banner.png, planet-map-finds.png, storm-countdown.png, hotspot-class-panel.png]
 ---
 
 # SPEC-0061: Map live layer: position, heading, trail, follow, nearby and go-to

@@ -12,7 +12,7 @@ depends_on: [SPEC-0020]
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0032, SPEC-0039, SPEC-0060, SPEC-0063, SPEC-0068, SPEC-0046]
-screenshots: [planet-map-icons.png, portal-glyphs.png, hotspot-class-panel.png]
+screenshots: [planet-map-finds.png, systems-portal-codes.png, hotspot-class-panel.png]
 ---
 
 # SPEC-0023: HUD icons and portal glyphs
@@ -158,3 +158,5 @@ See [SPEC-0039](../lessons/SPEC-0039-game-data-lessons.md). The relevant one: th
 **class is not in the hotspot marker the game exposes**, so the class-lettered icons are only
 useful once the player has told the map the class (read from the visor). The icon set is
 extracted in full anyway so the map can switch from the bare icon to the lettered one.
+
+> The screenshots in this repository were deliberately taken with the icons and glyph images absent, so they show the fallbacks this spec requires rather than the game's art.

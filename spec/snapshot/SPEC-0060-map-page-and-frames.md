@@ -12,7 +12,7 @@ depends_on: []
 supersedes: []
 superseded_by: []
 related_specs: [SPEC-0061, SPEC-0064, SPEC-0066, SPEC-0067, SPEC-0069, SPEC-0070, SPEC-0071, SPEC-0003, SPEC-0005, SPEC-0043, SPEC-0080, SPEC-0085]
-screenshots: [planet-map.png, planet-map-icons.png, base-layout.png, map-phone.png, map-fold.png]
+screenshots: [planet-map.png, planet-map-finds.png, base-layout.png, map-phone.png, map-fold.png]
 ---
 
 # SPEC-0060: Map page: views, coordinate frames and projections
@@ -34,7 +34,7 @@ Everything else in the map-ui area (live layer, heights, finds, globe, footprint
 layer drawn into one of these two frames. This spec defines the frames, which every other layer
 depends on, and the page shell that holds them.
 
-![Planet view with game icons](../../screenshots/planet-map-icons.png)
+![Planet view with game icons](../../screenshots/planet-map-finds.png)
 
 ![Base view](../../screenshots/base-layout.png)
 
