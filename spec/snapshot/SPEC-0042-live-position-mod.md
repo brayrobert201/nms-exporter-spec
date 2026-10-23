@@ -6,7 +6,7 @@ type: snapshot
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: '2026-10-23'
+last_updated: '2026-10-24'
 status: current
 depends_on: [SPEC-0040]
 supersedes: []
@@ -75,14 +75,29 @@ exporter infers a missing address from the planet centre (SPEC-0043 REQ-008).
 Each sample shall be written as one JSON object `{...sample, "weather": {...}}` to `live.json.tmp`
 then `os.replace`d onto `live.json`, so a reader never sees a partial file.
 
+### SPEC-0042-REQ-004a: Current sample over pyMHF's HTTP API (0.5)
+The mod shall also expose the same object (`{...sample, "weather": {...}}`, or `null` before the first
+sample) as a read-only property decorated with pyMHF's `@endpoint("sample", method="GET")`
+(`from pymhf.core.http_api import endpoint`). pyMHF serves it at
+`GET http://127.0.0.1:5000/LivePosition/sample`: the route is prefixed with the mod's class name, and
+pyMHF only starts its uvicorn server (bound to `0.0.0.0:5000`) when some loaded mod declares an
+endpoint. The import shall be guarded: without the `http_api` extra the decorator is a no-op and the
+file remains the only output. `live.json` keeps being written as a fallback.
+
+The suggestion came from pyMHF's author: state is a good fit for the endpoint; history (trail, visor,
+systems, weather) stays as append-only files (SPEC-0048), because a pull API only has what the mod
+holds at the moment it is asked.
+
 ### SPEC-0042-REQ-005: Trail
 A sample shall be appended (one JSON line, same fields as `live.json` minus `weather`) to
 `trail-YYYYMMDD.jsonl` (local date of the sample) when it is the first of the session, or
 `(planet_index, location, ua)` differs from the last trail line's, or the squared distance between
 the two `rel` vectors exceeds `MIN_MOVE^2` with `MIN_MOVE = 2.0` m.
 
-### SPEC-0042-REQ-006: Exporter staleness
-The exporter shall treat `live.json` as `live` when `now - t <= STALE_S = 10` s and `stale` otherwise,
+### SPEC-0042-REQ-006: Exporter source and staleness
+The exporter shall read the current sample from the HTTP endpoint first (timeout 0.3 s; any error,
+non-object or missing `t` counts as no answer; `NMS_LIVE_URL=""` disables it) and fall back to
+`live.json`. It shall treat the sample as `live` when `now - t <= STALE_S = 10` s and `stale` otherwise,
 and report `none` with a reason when the file is missing or unparsable. Reads return
 `(value, error)` and never raise.
 
@@ -128,7 +143,8 @@ The mod deliberately has **no** `cGcApplication.Update` hook (SPEC-0041 REQ-007)
 
 ## Reader contract
 
-- Readers poll `live.json` (the map polls about once a second) and must tolerate a missing file,
+- Readers take the current sample from `GET :5000/LivePosition/sample` when it answers, else poll
+  `live.json` (the map polls about once a second); either way they must tolerate a missing sample,
   partial history, and `ua: null`.
 - Readers ingest trail lines incrementally (remember a byte offset or line count per day file) and
   never rewrite the files; the mod may be appending at the same moment, so a final line without `\n`

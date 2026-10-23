@@ -6,7 +6,7 @@ type: decision
 area: live-hook
 author: bob
 created: 2026-10-23
-last_updated: 2026-10-23
+last_updated: '2026-10-24'
 status: accepted
 supersedes: []
 superseded_by: []
@@ -44,8 +44,12 @@ is in the marker. Each correction needed the raw values, not a derived number.
 
 ## Alternatives considered
 
-- **Mod serves an HTTP API (pyMHF `http_api`).** Live but no history; the exporter would need the game
-  up to show anything, and an exporter bug could make requests into the game.
+- **Mod serves an HTTP API (pyMHF `http_api`).** Rejected for *history*: live but no history, so the
+  exporter would need the game up to show anything. **Adopted for the current state** in
+  live_position 0.5 (2026-10-24, at the suggestion of pyMHF's author): the 4 Hz sample is served at
+  `:5000/LivePosition/sample` and read there first, with `live.json` kept as the fallback
+  (SPEC-0042 REQ-004a). The endpoint is a read-only property returning a dict the mod already built,
+  so a request never reads game memory.
 - **Mod writes straight to the database.** Adds a network client and credentials inside the game
   process; a slow database would stall a frame hook.
 - **Mod computes map-ready values (heading, lat/lon, storm ETA).** Every correction would need a hot

@@ -29,6 +29,8 @@ Common conventions:
 
 ## Position sample (`live.json` and each `trail-*.jsonl` line)
 
+The current sample is also served by pyMHF's HTTP API at `GET http://127.0.0.1:5000/LivePosition/sample` (live_position 0.5; same object as `live.json`, `null` before the first sample).
+
 | Field | Type | Meaning |
 |---|---|---|
 | `t` | float | sample time, 1 decimal |
